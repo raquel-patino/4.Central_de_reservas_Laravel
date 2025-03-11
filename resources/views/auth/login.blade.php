@@ -6,6 +6,11 @@
     <title>Login</title>
 </head>
 <body class="flex items-center justify-center h-screen bg-gray-100">
+    @if (session()->has('error'))
+        <div class="text-red-600">
+            {{session('error')}}
+        </div>
+    @endif
     <div class="w-96 p-6 bg-white shadow-md rounded-lg">
         <h2 class="text-2xl font-bold text-center mb-4">Iniciar Sesión</h2>
         <form method="POST" action="{{route ('login')}}">
