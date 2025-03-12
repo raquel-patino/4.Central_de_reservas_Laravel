@@ -22,7 +22,7 @@
         <h1 class="text-3xl font-bold text-[#3F9BA6] text-center mb-6">Reserva tu Habitación</h1>
 
         <!-- Barra de Búsqueda -->
-        <form action="" method="" class="space-y-4">
+        <form action="{{route('search')}}" method="GET" class="space-y-4">
             <div class="flex flex-col sm:flex-row gap-4">
                 <input type="date" name="check_in" class="p-3 w-full border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A67B5B]">
                 <input type="date" name="check_out" class="p-3 w-full border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A67B5B]">
@@ -36,8 +36,8 @@
                 </select>
                 <div class="flex flex-col sm:flex-row gap-4">
                     <select name="place" class="p-3 w-full border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#A67B5B]">
-                        <option value="1">Laponia</option>
-                        <option value="2">Maldivas</option>
+                        <option value="Finlandia">Finlandia</option>
+                        <option value="Maldivas">Maldivas</option>
                     </select>
                 </div>
                 <button type="submit" class="bg-[#6B4226] text-white px-6 py-3 rounded-md shadow-md hover:bg-[#A67B5B] transition">

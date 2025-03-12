@@ -13,5 +13,6 @@ Route::get('/private', [ReservationController::class, 'showReservations'])->name
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/register-new', [LoginController::class, 'register'])->name('register-new');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/search', [ReservationController::class, 'searchReservation'])->name('search');
 
 

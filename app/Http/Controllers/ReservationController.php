@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Hotel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 
 class ReservationController extends Controller
 {
@@ -19,6 +20,10 @@ class ReservationController extends Controller
 
        $checkIn= $request->input('check_in');
        $checkOut= $request->input ('check_out');
+       $place= $request->input('place');
+
+       $hotels= Hotel::searchHotels($place);
        
+       return view('search', compact('hotels'));
     }
 }

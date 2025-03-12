@@ -12,4 +12,15 @@ class Hotel extends Model
 
         return $this->hasMany(Reservation::class, 'hotel_id');
     }
+
+
+    static function searchHotels($place){
+
+        return Hotel::where('country', $place)->get();
+    }
+
+    public function rooms(){
+
+        return $this->hasMany(Room::class, 'hotel_id');
+    }
 }
