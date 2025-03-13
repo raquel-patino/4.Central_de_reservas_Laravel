@@ -18,11 +18,22 @@ class ReservationController extends Controller
 
     public function searchReservation(Request $request){
 
-       $checkIn= $request->input('check_in');
-       $checkOut= $request->input ('check_out');
+       //$checkIn= $request->input('check_in');
+       //$checkOut= $request->input ('check_out');
+
+       $request->validate([
+        'check_in'  => ['required', 'date', 'after_or_equal:today'],
+        'check_out' => ['required', 'date', 'after:check_in'],
+        'place'     => ['required', 'string'],
+    ], [
+        'check_out.after' => 'La fecha de salida debe ser posterior a la de entrada.'
+    ]);
+    
        $place= $request->input('place');
 
-       $hotels= Hotel::searchHotels($place);
+       if( Hotel::searchHotels($place)=== null){
+        return redirect()->back()->withErrors(["place"=> "No tenemos disponibilidad para este filtro"]);
+       }
        
        return view('search', compact('hotels'));
     }

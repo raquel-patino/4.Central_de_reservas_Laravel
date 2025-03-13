@@ -15,8 +15,11 @@ class Hotel extends Model
 
 
     static function searchHotels($place){
+        if (!Hotel::whereCountry($place)->exists()){
+            return null;
+        }
 
-        return Hotel::where('country', $place)->get();
+        return Hotel::whereCountry($place)->get();
     }
 
     public function rooms(){

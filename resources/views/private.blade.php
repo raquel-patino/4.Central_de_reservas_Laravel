@@ -19,8 +19,19 @@
     <div class="container mx-auto mt-10 p-6 bg-white shadow-xl rounded-lg max-w-4xl">
         
         <!-- Título -->
-        <h1 class="text-3xl font-bold text-[#3F9BA6] text-center mb-6">Reserva tu Habitación</h1>
-
+    <h1 class="text-3xl font-bold text-[#3F9BA6] text-center mb-6">Reserva tu Habitación</h1>
+    <!--Agrega error si el checkout es erroneo"-->
+    @error('check_out')
+    <div class="alert alert-danger">
+        {{ $message }}
+    </div>
+    @enderror
+    <!--Errores si no se encuentra 'place'-->
+        @if ($errors->has('place'))
+    <div class="alert alert-danger">
+        {{ $errors->first('place') }}
+    </div>
+        @endif
         <!-- Barra de Búsqueda -->
         <form action="{{route('search')}}" method="GET" class="space-y-4">
             <div class="flex flex-col sm:flex-row gap-4">
