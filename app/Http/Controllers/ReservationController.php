@@ -31,7 +31,9 @@ class ReservationController extends Controller
     
        $place= $request->input('place');
 
-       if( Hotel::searchHotels($place)=== null){
+       $hotels= Hotel::searchHotels($place);
+
+       if($hotels=== null){
         return redirect()->back()->withErrors(["place"=> "No tenemos disponibilidad para este filtro"]);
        }
        
