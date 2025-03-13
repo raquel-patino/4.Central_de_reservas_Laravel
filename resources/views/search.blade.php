@@ -23,6 +23,7 @@
                     <ul>
                         @foreach ($hotel->rooms as $room)
                             <li>Tipo: {{ $room->type }}</li>
+                            <li>Precio: {{ $room->price }}</li>
                         @endforeach
                     </ul>
                 @else
