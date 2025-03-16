@@ -39,4 +39,9 @@ class ReservationController extends Controller
        
        return view('search', compact('hotels'));
     }
+
+    public function showForm($hotelId){
+        
+        return view('reservation', [$hotelId=>'hotel_id']);
+    }
 }
