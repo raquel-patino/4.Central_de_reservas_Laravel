@@ -1,76 +1,69 @@
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite('resources/css/app.css') 
 </head>
-<body class="flex items-center justify-center h-screen bg-gray-100">
-    <div class="w-96 p-6 bg-white shadow-md rounded-lg">
-        <h2 class="text-2xl font-bold text-center mb-4">Registro</h2>
-        <form method="POST" action="{{route('register-new')}}">
+<body class="h-screen flex items-center justify-center bg-[#1B1B1B] text-white">
+
+    <div class="bg-[#2A2A2A] p-8 rounded-lg shadow-lg w-full max-w-lg">
+        <h2 class="text-3xl font-bold text-[#EAC696] text-center mb-6 font-elegant">Registro</h2>
+
+        <form method="POST" action="{{route('register-new')}}" class="space-y-4">
             @csrf
-            <div class="mb-2">
-                <label class="block text-gray-700">Nombre</label>
-                <input type="text" name="name" class="w-full p-2 border border-gray-300 rounded mt-1" required>
+
+            <!-- Nombre y Apellido -->
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-1">
+                    <label class="block text-[#EAC696] font-playfair text-lg">Nombre</label>
+                    <input type="text" name="name" class="w-full p-3 bg-[#3A3A3A] text-white border border-[#EAC696] rounded focus:outline-none focus:ring-2 focus:ring-[#EAC696] font-modern" required>
+                </div>
+                <div class="flex-1">
+                    <label class="block text-[#EAC696] font-elegant text-lg">Apellido</label>
+                    <input type="text" name="surname" class="w-full p-3 bg-[#3A3A3A] text-white border border-[#EAC696] rounded focus:outline-none focus:ring-2 focus:ring-[#EAC696] font-modern" required>
+                </div>
             </div>
-            <div class="mb-2">
-                <label class="block text-gray-700">Apellido</label>
-                <input type="text" name="surname" class="w-full p-2 border border-gray-300 rounded mt-1" required>
+
+            <!-- Username y Correo -->
+            <div>
+                <label class="block text-[#EAC696] font-elegant text-lg">Username</label>
+                <input type="text" name="username" class="w-full p-3 bg-[#3A3A3A] text-white border border-[#EAC696] rounded focus:outline-none focus:ring-2 focus:ring-[#EAC696] font-modern" required>
             </div>
-            <div class="mb-2">
-                <label class="block text-gray-700">Username</label>
-                <input type="text" name="username" class="w-full p-2 border border-gray-300 rounded mt-1" required>
+            <div>
+                <label class="block text-[#EAC696] font-elegant text-lg">Correo Electrónico</label>
+                <input type="email" name="email" class="w-full p-3 bg-[#3A3A3A] text-white border border-[#EAC696] rounded focus:outline-none focus:ring-2 focus:ring-[#EAC696] font-modern" required>
             </div>
-            <div class="mb-2">
-                <label class="block text-gray-700">Correo Electrónico</label>
-                <input type="email" name="email" class="w-full p-2 border border-gray-300 rounded mt-1" required>
+
+            <!-- Contraseña -->
+            <div>
+                <label class="block text-[#EAC696] font-elegant text-lg">Contraseña</label>
+                <input type="password" name="password" class="w-full p-3 bg-[#3A3A3A] text-white border border-[#EAC696] rounded focus:outline-none focus:ring-2 focus:ring-[#EAC696] font-modern" required>
             </div>
-            <div class="mb-2">
-                <label class="block text-gray-700">Contraseña</label>
-                <input type="password" name="password" class="w-full p-2 border border-gray-300 rounded mt-1" required>
-                @error('password')
-                <p class="text-red-500 text-sm">{{ $message }}</p>
-                @enderror
-    
+            <div>
+                <label class="block text-[#EAC696] font-elegant text-lg">Confirmar Contraseña</label>
+                <input type="password" name="password_confirmation" class="w-full p-3 bg-[#3A3A3A] text-white border border-[#EAC696] rounded focus:outline-none focus:ring-2 focus:ring-[#EAC696] font-modern" required>
             </div>
-            <div class="mb-2">
-                <label class="block text-gray-700">Confirmar Contraseña</label>
-                <input type="password" name="password_confirmation" class="w-full p-2 border border-gray-300 rounded mt-1" required>
+
+            <!-- Teléfono -->
+            <div>
+                <label class="block text-[#EAC696] font-elegant text-lg">Teléfono</label>
+                <input type="text" name="telephone" class="w-full p-3 bg-[#3A3A3A] text-white border border-[#EAC696] rounded focus:outline-none focus:ring-2 focus:ring-[#EAC696] font-modern" required>
             </div>
-            <div class="flex flex-row justify-between">
-            <div class="mb-4 w-1/4">
-                <label class="block text-gray-700">Calle</label>
-                <input type="text" name="street_type" class="w-full p-2 border border-gray-300 rounded mt-1">
-            </div>
-            <div class="mb-4 w-1/4">
-                <label class="block text-gray-700">Nombre de la calle</label>
-                <input type="text" name="street_name" class="w-full p-2 border border-gray-300 rounded mt-1">
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700">Numero</label>
-                <input type="text" name="number" class="w-full p-2 border border-gray-300 rounded mt-1">
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700">Codigo postal</label>
-                <input type="text" name="postcode" class="w-full p-2 border border-gray-300 rounded mt-1">
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700">Ciudad</label>
-                <input type="text" name="city" class="w-full p-2 border border-gray-300 rounded mt-1">
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700">Pais</label>
-                <input type="text" name="country" class="w-full p-2 border border-gray-300 rounded mt-1">
-            </div>
-        </div>
-            <div class="mb-4">
-                <label class="block text-gray-700">Telefono</label>
-                <input type="text" name="telephone" class="w-full p-2 border border-gray-300 rounded mt-1" required>
-            </div>
-            <button type="submit" class="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600">Registrarse</button>
+
+            <!-- Botón de Registro -->
+            <button type="submit" class="w-full bg-green-500 text-white p-3 rounded-md shadow-md hover:bg-green-600 transition font-modern">
+                Registrarse
+            </button>
         </form>
-        <p class="mt-4 text-center">¿Ya tienes cuenta? <a href="{{route ('login')}}" class="text-blue-500">Inicia sesión</a></p>
+
+        <!-- Enlace para iniciar sesión -->
+        <p class="mt-4 text-center text-gray-300">
+            ¿Ya tienes cuenta? 
+            <a href="{{ route('login') }}" class="text-[#EAC696] hover:underline font-elegant">Inicia sesión</a>
+        </p>
     </div>
+
 </body>
-</html>
+

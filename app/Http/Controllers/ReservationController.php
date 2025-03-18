@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Hotel;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -40,8 +41,24 @@ class ReservationController extends Controller
        return view('search', compact('hotels'));
     }
 
-    public function showForm($hotelId){
-        
-        return view('reservation', [$hotelId=>'hotel_id']);
+    public function showForm(Request $request){
+
+            $hotelId = $request->query('hotel_id');
+           
+            $hotel = Hotel::find($hotelId);
+
+        return view('reservation', compact('hotel'));
+    }
+
+    public function makeReservation(Request $request){
+    
+    $hotelId= $request->query('hotel_id');
+    $checkIn=$request->input('check_in');
+    $checkOut= $request->input('check_out');
+    $guests= $request->input('number_guests');
+    $roomId=$request->input('room_id');
+
+    Reservation::createReservation($checkIn,$checkOut,$guests,$roomId,$hotelId);
+    return $this->showReservations();
     }
 }

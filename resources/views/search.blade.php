@@ -33,12 +33,12 @@
                             @endif
                         </div>
                 <!-- Botón de Reservar con Formulario -->
-       <form action="{{ route('reservation', [$hotel->id => 'hotel_id'])}}" method=GET>
-        <input type="hidden" name="hotel_id" value="{{ $hotel->id }}">
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
-            Reservar
-        </button>
-    </form>
+         <form action="{{ route('reservation', ['hotel_id' => $hotel->id]) }}" method="GET">
+                <input type="hidden" name="hotel_id" value="{{ $hotel->id }}">
+             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
+             Reservar
+            </button>
+        </form>
 </li>
 @endforeach
 </ul>

@@ -15,9 +15,7 @@ Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/register-new', [LoginController::class, 'register'])->name('register-new');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/search', [ReservationController::class, 'searchReservation'])->name('search');
-Route::get('/reservation/{hotel_id}',[ReservationController::class, 'showForm'])->name('reservation');
-//Route::get('/reservation-form/{hotel_id}', function($hotelId){
-  //  return view('reservation-form', ['hotel_id'=> $hotelId]);
-//})->name('form');
+Route::get('/reservation',[ReservationController::class, 'showForm'])->name('reservation');
+Route::get('/new-reservation', [ReservationController::class, 'makeReservation'])->name('new-reservation');
 
 

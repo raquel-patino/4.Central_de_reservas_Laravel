@@ -12,5 +12,9 @@
         "laravel-vite-plugin": "^1.2.0",
         "tailwindcss": "^4.0.10",
         "vite": "^6.0.11"
+    },
+    "dependencies": {
+        "@fontsource/lora": "^5.2.5",
+        "@fontsource/playfair-display": "^5.2.5"
     }
 }
