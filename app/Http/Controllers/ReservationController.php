@@ -59,6 +59,6 @@ class ReservationController extends Controller
     $roomId=$request->input('room_id');
 
     Reservation::createReservation($checkIn,$checkOut,$guests,$roomId,$hotelId);
-    return $this->showReservations();
+    return redirect()->route('private');
     }
 }

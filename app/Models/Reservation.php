@@ -21,7 +21,7 @@ class Reservation extends Model
         return $this->belongsTo(Hotel::class, 'hotel_id');
     }
 
-    static function createReservation($checkin, $checkout, $guests, $roomId, $hotelId){
+   public static function createReservation($checkin, $checkout, $guests, $roomId, $hotelId){
         $user= Auth::id();
         $room= Room::find($roomId);
 

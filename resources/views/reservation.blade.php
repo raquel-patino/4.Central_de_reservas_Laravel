@@ -8,7 +8,7 @@
 <body class="min-h-screen flex items-center justify-center bg-gray-100">
     <div class="p-6 mt-10 bg-white shadow-md rounded-lg w-full max-w-lg">
         <h2 class=" mt-6 text-2xl font-bold text-center mb-4 ">Nueva Reserva</h2>
-        <form method="GET" action="{{route ('new-reservation', ['hotel_id' => $hotel->id])}}">
+        <form method="GET" action="{{route ('new-reservation')}}">
             <div class="flex flex-col justify-between">
                 <div class="mb-4">
                     <label class="block text-gray-700">Check-in</label>
