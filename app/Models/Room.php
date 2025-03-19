@@ -12,4 +12,8 @@ class Room extends Model
     public function hotels(){
         return $this->belongsTo(Hotel::class, 'hotel_id');
     }
+
+    public function reservations(){
+        return $this->hasMany(Reservation::class, 'room_id');
+    }
 }

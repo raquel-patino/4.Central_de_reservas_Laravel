@@ -17,5 +17,6 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/search', [ReservationController::class, 'searchReservation'])->name('search');
 Route::get('/reservation',[ReservationController::class, 'showForm'])->name('reservation');
 Route::get('/new-reservation', [ReservationController::class, 'makeReservation'])->name('new-reservation');
-
+Route::get('/cancel/{reservation_id}', [ReservationController::class, 'confirmDelete'])->name('confirm-delete');
+Route::delete('/cancel/{reservation_id}', [ReservationController::class ,'destroy'])->name('reservation-destroy');
 

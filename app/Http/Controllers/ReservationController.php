@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Hotel;
 use App\Models\Reservation;
+use Illuminate\Cache\RedisTaggedCache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -60,5 +61,20 @@ class ReservationController extends Controller
 
     Reservation::createReservation($checkIn,$checkOut,$guests,$roomId,$hotelId);
     return redirect()->route('private');
+    }
+
+    public function confirmDelete($reservationId){
+        $reservation= Reservation::find($reservationId);
+
+        return view('delete-confirmation', compact('reservation'));
+    }
+
+    public function destroy($reservationId){
+       
+        $reservation=Reservation::find($reservationId);
+        $reservation->delete();
+
+        return redirect()->route('private')->with('success', 'La reserva se ha cancelado correctamente');
+
     }
 }
