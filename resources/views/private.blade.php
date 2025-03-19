@@ -11,7 +11,7 @@
     <!-- Encabezado con fondo oscuro -->
     <header class="relative w-full">
         <div class="absolute inset-0 bg-black opacity-50"></div>
-        <img src="https://wallpapers.com/images/featured/maldives-23wyvlaqa7aydqny.jpg" 
+        <img src="https://www.thetimes.com/imageserver/image/%2Fmethode%2Ftimes%2Fprod%2Fweb%2Fbin%2F60591094-a176-4463-a2df-0bef829e93b4.jpg?crop=2560%2C1705%2C0%2C0" 
              alt="Luxury Hotel Booking" 
              class="w-full h-[450px] object-cover">
         <div class="absolute inset-0 flex flex-col justify-center items-center text-white">
@@ -22,7 +22,11 @@
 
     <!-- Contenedor Principal -->
     <div class="container mx-auto mt-10 p-6 bg-[#2A2A2A] shadow-xl rounded-lg max-w-4xl">
-        
+        @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
         <!-- Título -->
         <h2 class="text-3xl font-bold text-[#EAC696] text-center mb-6">Reserva tu Habitación</h2>
 
@@ -66,7 +70,22 @@
                             <h3 class="text-lg font-semibold text-[#EAC696]">{{ $reservation->hotel->name }}</h3>
                             <p class="text-gray-300"><strong>Entrada:</strong> {{ $reservation->check_in }}</p>
                             <p class="text-gray-300"><strong>Salida:</strong> {{ $reservation->check_out }}</p>
+                            <p class="text-gray-300"><strong>Habitacion:</strong> {{ $reservation->room->type }}</p>
                             <p class="text-gray-300"><strong>Precio:</strong> ${{ $reservation->price }}</p>
+                            <div class="flex flex-row mt-4 space-x-2">
+                                <!-- Botón Cancelar -->
+                                <a href="{{ route('confirm-delete', $reservation->id) }}" 
+                                    class="bg-[#EAC696] text-black px-3 py-2 rounded-md shadow-md hover:bg-[#C89D60] transition w-auto inline-flex">
+                                    Cancelar reserva
+                                </a>
+                            
+                                <!-- Botón Modificar -->
+                                <a href=", $reservation->id) }}" 
+                                    class="bg-[#EAC696] text-black px-3 py-2 rounded-md shadow-md hover:bg-[#C89D60] transition w-auto inline-flex">
+                                    Modificar reserva
+                                </a>
+                            </div>
+                
                         </div>
 
                         <!-- Imagen de la habitación -->
