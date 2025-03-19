@@ -19,4 +19,4 @@ Route::get('/reservation',[ReservationController::class, 'showForm'])->name('res
 Route::get('/new-reservation', [ReservationController::class, 'makeReservation'])->name('new-reservation');
 Route::get('/cancel/{reservation_id}', [ReservationController::class, 'confirmDelete'])->name('confirm-delete');
 Route::delete('/cancel/{reservation_id}', [ReservationController::class ,'destroy'])->name('reservation-destroy');
-
+Route::put('/update/{reservation_id}', ReservationController::class, 'updateReservation')->name('update');

@@ -77,4 +77,11 @@ class ReservationController extends Controller
         return redirect()->route('private')->with('success', 'La reserva se ha cancelado correctamente');
 
     }
+    
+    public function updateReservation($reservationId){
+
+        $reservation= Reservation::find($reservationId);
+
+        return view('update-form', compact('reservation'));
+    }
 }
