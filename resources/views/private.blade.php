@@ -80,7 +80,7 @@
                                 </a>
                             
                                 <!-- Botón Modificar -->
-                                <a href=", $reservation->id) }}" 
+                                <a href="{{route('update', $reservation->id)}}" 
                                     class="bg-[#EAC696] text-black px-3 py-2 rounded-md shadow-md hover:bg-[#C89D60] transition w-auto inline-flex">
                                     Modificar reserva
                                 </a>
