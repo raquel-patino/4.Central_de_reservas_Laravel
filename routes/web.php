@@ -20,3 +20,4 @@ Route::get('/new-reservation', [ReservationController::class, 'makeReservation']
 Route::get('/cancel/{reservation_id}', [ReservationController::class, 'confirmDelete'])->name('confirm-delete');
 Route::delete('/cancel/{reservation_id}', [ReservationController::class ,'destroy'])->name('reservation-destroy');
 Route::get('/update/{reservation_id}',[ReservationController::class, 'updateReservation'])->name('update');
+Route::post('/modify/{reservation_id}', [ReservationController::class, 'modifyReservation'])->name('modify');

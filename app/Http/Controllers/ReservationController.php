@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Hotel;
 use App\Models\Reservation;
-use Illuminate\Cache\RedisTaggedCache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Cache\RedisTaggedCache;
 
 class ReservationController extends Controller
 {
@@ -36,7 +37,7 @@ class ReservationController extends Controller
        $hotels= Hotel::searchHotels($place);
 
        if($hotels=== null){
-        return redirect()->back()->withErrors(["place"=> "No tenemos disponibilidad para este filtro"]);
+        return redirect()->back()->withErrors(["place"=> "No tenemos disponibilidad para $place "]);
        }
        
        return view('search', compact('hotels'));
@@ -73,15 +74,54 @@ class ReservationController extends Controller
        
         $reservation=Reservation::find($reservationId);
         $reservation->delete();
-
+        //aqui siempre da success, cambiarlo
         return redirect()->route('private')->with('success', 'La reserva se ha cancelado correctamente');
 
     }
     
     public function updateReservation($reservationId){
-
+        
         $reservation= Reservation::find($reservationId);
 
         return view('update-form', compact('reservation'));
     }
+
+    public function modifyReservation (Request $request, $reservationId){
+    
+        $request->validate([
+            'check_in'  => ['required', 'date', 'after_or_equal:today'],
+            'check_out' => ['required', 'date', 'after:check_in'],
+            'number_guests' =>['required', 'lte:3']
+        ],[
+            'check_out.after' => 'La fecha de salida debe ser posterior a la de entrada.',
+            'check_in.after_or_equal' => 'La fecha de entrada debe ser igual o posterior a hoy'
+        ]);
+        
+        $reservation =Reservation::find($reservationId);
+
+        if (!$reservation===null){
+            $reservation->check_in= $request->check_in;
+            $reservation->check_out= $request->check_out;
+            $reservation->number_guests= $request->number_guests;
+            $reservation->room->type= $request->room_type;
+            $reservation->save();
+
+        }else {
+            //return view('update-form')->with('error', 'La reserva no se ha encontrado');
+        }
+        
+
+        return view('modified-reservation', compact('reservation'))->with('success', 'La reserva se ha modificado correctamente');
+    }
+
+
+    
+   /* 
+    private function calculateReservationPrice(Reservation $reservation){
+        
+        $checkIn= Carbon::parse
+        $reservation->price = $reservation->room->price * ($reservation->che)
+
+    }
+*/
 }
