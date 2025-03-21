@@ -98,30 +98,36 @@ class ReservationController extends Controller
         ]);
         
         $reservation =Reservation::find($reservationId);
-
-        if (!$reservation===null){
+        
+        if ($reservation){
             $reservation->check_in= $request->check_in;
             $reservation->check_out= $request->check_out;
             $reservation->number_guests= $request->number_guests;
             $reservation->room->type= $request->room_type;
+            $reservation->price= $this->calculateReservationPrice($reservation,$request);
             $reservation->save();
+            
+        return view('modified-reservation', compact('reservation'))->with('success', 'La reserva se ha modificado correctamente');
 
         }else {
-            //return view('update-form')->with('error', 'La reserva no se ha encontrado');
+            return redirect()->back()->with('error', 'La reserva no se ha encontrado');
         }
         
 
-        return view('modified-reservation', compact('reservation'))->with('success', 'La reserva se ha modificado correctamente');
+        
     }
 
 
     
-   /* 
-    private function calculateReservationPrice(Reservation $reservation){
+   
+    private function calculateReservationPrice(Reservation $reservation, Request $request){
         
-        $checkIn= Carbon::parse
-        $reservation->price = $reservation->room->price * ($reservation->che)
-
+        $checkIn= Carbon::parse($request->check_in);
+        $checkOut= Carbon::parse($request->check_out);
+        $dias = $checkIn->diffInDays($checkOut);
+        $totalPrice = $reservation->room->price * ($dias);
+        
+        return $totalPrice;
     }
-*/
+
 }

@@ -81,5 +81,10 @@ public function logout(Request $request){
     return redirect(route('login-index'));
 }
 
+public function showProfile (){
+    $user= Auth::user();
+
+    return view('profile', compact('user'));
+}
 
 }
