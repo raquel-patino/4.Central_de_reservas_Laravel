@@ -44,7 +44,9 @@
                                         <h4 class="text-xl font-semibold font-cinzel mb-2">{{ $room->type }}</h4>
                                         <p class="mb-4"><strong>Precio:</strong> ${{ $room->price }}</p>
                                         <!-- Botón de Reservar -->
-                                        <form action="{{ route('reservation', ['hotel_id' => $hotel->id, 'room_id' => $room->id]) }}" method="GET">
+                                        <form action="{{ route('reservation') }}" method="GET">
+                                            <input type="hidden" name="hotel_id" value="{{ $hotel->id }}">
+                                            <input type="hidden" name="room_id" value="{{ $room->id }}">
                                             <button type="submit"
                                                     class="bg-[#260101] text-[#EAC696] px-4 py-2 rounded-md hover:bg-[#BF4904] transition w-full font-cinzel">
                                                 Reservar

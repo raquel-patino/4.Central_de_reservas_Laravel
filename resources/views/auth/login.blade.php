@@ -31,7 +31,7 @@
             <h2 class="text-3xl font-cinzel font-bold text-[#591902] text-center mb-6">Iniciar Sesión</h2>
     
             @if (session()->has('error'))
-                <div class="text-red-400 text-center mb-4">
+                <div class="text-[#591902] text-center mb-4">
                     {{ session('error') }}
                 </div>
             @endif

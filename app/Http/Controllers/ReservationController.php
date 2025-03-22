@@ -46,14 +46,22 @@ class ReservationController extends Controller
     public function showForm(Request $request){
 
             $hotelId = $request->query('hotel_id');
-           
+    
             $hotel = Hotel::find($hotelId);
 
         return view('reservation', compact('hotel'));
     }
 
-    public function makeReservation(Request $request){
+    /*public function makeReservation(Request $request){
     
+
+    Reservation::create([
+        'check_in'=> $request->input('check_in'),
+        'check_out'=> $request->input('check_out'),
+        'number_guests'=> $request->input('number_guests'),
+        'hotel_id'=>
+
+    ]);
     $hotelId= $request->query('hotel_id');
     $checkIn=$request->input('check_in');
     $checkOut= $request->input('check_out');
@@ -64,6 +72,22 @@ class ReservationController extends Controller
     return redirect()->route('private');
     }
 
+    public static function createReservation($checkin, $checkout, $guests, $roomId, $hotelId){
+        $user= Auth::id();
+        $room= Room::find($roomId);
+
+        $reservation= new Reservation();
+        $reservation->check_in=$checkin;
+        $reservation->check_out=$checkout;
+        $reservation->number_guests= $guests;
+        $reservation->room_id=$roomId;
+        $reservation->user_id= $user;
+        $reservation->price= $room->price;
+        $reservation->hotel_id=$hotelId;
+
+        $reservation->save();
+    }
+*/
     public function confirmDelete($reservationId){
         $reservation= Reservation::find($reservationId);
 
@@ -118,8 +142,6 @@ class ReservationController extends Controller
     }
 
 
-    
-   
     private function calculateReservationPrice(Reservation $reservation, Request $request){
         
         $checkIn= Carbon::parse($request->check_in);

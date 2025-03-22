@@ -21,11 +21,25 @@
             <p class="text-2xl font-cinzel mt-2 drop-shadow-md">Encuentra tu escapada perfecta</p>
         </div>
         <div class="absolute top-4 right-6 flex gap-4">
-            <!-- Botón "Mi Perfil" -->
-            <a href="{{route('show-profile')}}"
-               class="bg-[#EAC696] text-[#591902] font-playfair px-4 py-2 rounded-md shadow-md hover:bg-[#C89D60] transition">
-                Mi Perfil
-            </a>
+            <details class="relative">
+                <summary class="cursor-pointer bg-[#EAC696] text-[#591902] font-playfair px-4 py-2 rounded-md shadow-md hover:bg-[#C89D60] transition">
+                    Mi Perfil
+                </summary>
+                <div class="absolute right-0 mt-2 w-48 bg-[#EAC696] rounded-md shadow-lg z-50">
+                    <a href="{{ route('show-profile') }}"
+                       class="block px-4 py-2 text-sm text-[#591902] hover:bg-[#C89D60] transition">
+                        Modificar Perfil
+                    </a>
+                    <form action=" {{route('destroy-user')}}" method="POST" onsubmit="return confirm('¿Estás seguro que deseas eliminar tu perfil?')">
+                        @csrf
+                        <button type="submit"
+                                class="w-full text-left px-4 py-2 text-sm text-red-700 hover:bg-red-200 transition">
+                            Eliminar Perfil
+                        </button>
+                    </form>
+                </div>
+            </details>
+            
     
             <!-- Botón de Cerrar Sesión -->
             <form method="GET" action="{{ route('logout') }}">
@@ -87,7 +101,7 @@
     <!-- Contenedor Principal -->
     <div class="container mx-auto mt-10 p-2 bg-[#561f0c] shadow-xl rounded-lg max-w-4xl">
         @if (session('success'))
-            <div class="alert alert-success">
+            <div class="alert alert-success text-2xl font-cinzel font-bold bg-[#EAC696] text-[#561f0c] text-center">
                 {{ session('success') }}
             </div>
         @endif
