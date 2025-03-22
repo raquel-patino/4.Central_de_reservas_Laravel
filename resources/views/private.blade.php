@@ -119,9 +119,9 @@
                             </div>
                         </div>
                         <div class="ml-4">
-                            <img src="{{ $reservation->room->image_url ?? 'https://via.placeholder.com/150' }}"
+                            <img src="{{ asset('images/rooms/' . $reservation->room->type . '.jpg') }}"
                                  alt="Habitación reservada"
-                                 class="w-[150px] h-[100px] object-cover rounded-md shadow-md">
+                                 class="w-[300px] h-[200px] object-cover rounded-md shadow-md">
                         </div>
                     </div>
                 @endforeach

@@ -1,50 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Hoteles Disponibles</title>
     @vite('resources/css/app.css') 
 </head>
-<body class= "flex flex-col items-center justify-center min-h-screen">
-    <h2>Hoteles disponibles</h2>
-    <div class="flex flex-col justify-center items-center p-5 w-full max-w-lg bg-gray-100 shadow-md rounded-lg">
+<body class="bg-[#260101] text-white min-h-screen flex flex-col items-center">
+
+    <header class="py-10">
+        <h2 class="text-5xl font-cinzel text-[#f5e8d6]">Hoteles Disponibles</h2>
+    </header>
+
+    <div class="w-full max-w-6xl px-4">
         @if ($hotels->isEmpty())
-            <p>No existen hoteles disponibles.</p>
+            <div class="text-center bg-[#561f0c] p-6 rounded-md shadow-md text-[#EAC696]">
+                No existen hoteles disponibles.
+            </div>
         @else
-            <ul class="w-full space-y-4">
-                @foreach ($hotels as $hotel)
-                    <li class="p-4 border border-gray-300 rounded-md shadow-sm w-full flex justify-between items-center">
-                        <div>
-                            <strong>Hotel:</strong> {{ $hotel->name }}<br>
-                            <strong>Teléfono:</strong> {{ $hotel->telephone_number }}<br>
-                            <strong>Descripción:</strong> {{ $hotel->description }}<br>
-    
-                            @if ($hotel->rooms->count() > 0)
-                                <strong>Habitaciones:</strong> 
-                                <ul class="pl-5 list-disc">
-                                    @foreach ($hotel->rooms as $room)
-                                        <li>Tipo: {{ $room->type }} - Precio: {{ $room->price }}</li>
-                                    @endforeach
-                                </ul>
-                            @else
-                                <strong>Este hotel no tiene habitaciones disponibles</strong>
-                            @endif
+            @foreach ($hotels as $hotel)
+                <div class="mb-12 bg-[#561f0c] p-6 rounded-lg shadow-xl">
+                    <!-- Info del hotel -->
+                    <div class="mb-6">
+                        <h3 class="text-4xl font-cinzel text-[#EAC696] text-center font-semibold">{{ $hotel->name }}</h3>
+                        <p class="mt-1">
+                            <span class="text-[#EAC696] font-semibold">Descripción:</span>
+                            <span class="text-[#f5e8d6]">{{ $hotel->description }}</span>
+                        </p>
+                        <p class="mt-2">
+                            <span class="text-[#EAC696] font-semibold">Contacto:</span>
+                            <span class="text-[#f5e8d6]">{{ $hotel->telephone_number }}</span>
+                        </p>
+                    </div>
+
+                    @if ($hotel->rooms->count() > 0)
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            @foreach ($hotel->rooms as $room)
+                                <div class="bg-[#EAC696] text-[#561f0c] rounded-lg shadow-md overflow-hidden flex flex-col justify-between">
+                                    <img src="{{ asset('images/rooms/' . $room->type . '.jpg') }}"
+                                         alt="{{ $room->type }}"
+                                         class="w-full h-48 object-cover">
+                                    <div class="p-4 flex-1 flex flex-col justify-between">
+                                        <h4 class="text-xl font-semibold font-cinzel mb-2">{{ $room->type }}</h4>
+                                        <p class="mb-4"><strong>Precio:</strong> ${{ $room->price }}</p>
+                                        <!-- Botón de Reservar -->
+                                        <form action="{{ route('reservation', ['hotel_id' => $hotel->id, 'room_id' => $room->id]) }}" method="GET">
+                                            <button type="submit"
+                                                    class="bg-[#260101] text-[#EAC696] px-4 py-2 rounded-md hover:bg-[#BF4904] transition w-full font-cinzel">
+                                                Reservar
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
-                <!-- Botón de Reservar con Formulario -->
-         <form action="{{ route('reservation', ['hotel_id' => $hotel->id]) }}" method="GET">
-                <input type="hidden" name="hotel_id" value="{{ $hotel->id }}">
-             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
-             Reservar
-            </button>
-        </form>
-</li>
-@endforeach
-</ul>
-@endif
-</div>
-    
-    
+                    @else
+                        <p class="text-[#C0C0C0] text-center mt-4">Este hotel no tiene habitaciones disponibles.</p>
+                    @endif
+                </div>
+            @endforeach
+        @endif
+    </div>
+
 </body>
 </html>
