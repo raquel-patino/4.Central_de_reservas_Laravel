@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Hotel;
 use App\Models\Reservation;
+use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Cache\RedisTaggedCache;
@@ -52,26 +53,27 @@ class ReservationController extends Controller
         return view('reservation', compact('hotel'));
     }
 
-    /*public function makeReservation(Request $request){
-    
-
-    Reservation::create([
+    public function makeReservation(Request $request){
+      
+        $room= Room::find($request->input('room_id'));
+        $price= $room->price;
+    $reservation= Reservation::create([
         'check_in'=> $request->input('check_in'),
         'check_out'=> $request->input('check_out'),
         'number_guests'=> $request->input('number_guests'),
-        'hotel_id'=>
-
+        'hotel_id'=> $request->input('hotel_id'),
+        'user_id'=> Auth::id(),
+        'room_id'=> $request->input('room_id'),
+        'price'=> $price
     ]);
-    $hotelId= $request->query('hotel_id');
-    $checkIn=$request->input('check_in');
-    $checkOut= $request->input('check_out');
-    $guests= $request->input('number_guests');
-    $roomId=$request->input('room_id');
 
-    Reservation::createReservation($checkIn,$checkOut,$guests,$roomId,$hotelId);
-    return redirect()->route('private');
+    $reservation->price= $this->calculateReservationPrice($reservation,$request);
+    $reservation->save();
+
+
+    return redirect()->route('private')->with('success', 'Su reserva se ha realizado con éxito');
     }
-
+/*
     public static function createReservation($checkin, $checkout, $guests, $roomId, $hotelId){
         $user= Auth::id();
         $room= Room::find($roomId);
