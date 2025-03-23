@@ -11,6 +11,17 @@ class Reservation extends Model
 {
     protected $table= 'reservations';
 
+    protected $fillable= [
+        'check_in',
+        'check_out',
+        'number_guests',
+        'price',
+        'user_id',
+        'hotel_id',
+        'room_id'
+    ];
+
+    
     public function user(){
 
         return $this->belongsTo(User::class, 'user_id');
@@ -25,20 +36,6 @@ class Reservation extends Model
         return $this->belongsTo(Room::class, 'room_id');
     }
 
-   public static function createReservation($checkin, $checkout, $guests, $roomId, $hotelId){
-        $user= Auth::id();
-        $room= Room::find($roomId);
-
-        $reservation= new Reservation();
-        $reservation->check_in=$checkin;
-        $reservation->check_out=$checkout;
-        $reservation->number_guests= $guests;
-        $reservation->room_id=$roomId;
-        $reservation->user_id= $user;
-        $reservation->price= $room->price;
-        $reservation->hotel_id=$hotelId;
-
-        $reservation->save();
-    }
+  
 
 }

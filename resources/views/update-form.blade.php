@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reserva</title>
+    <title>Modificar Reserva</title>
     @vite('resources/css/app.css')
 </head>
 
@@ -17,7 +17,7 @@
              class="w-full h-[450px] object-cover">
         <div class="absolute inset-0 flex flex-col justify-center items-center text-white">
             <h1 class="text-8xl font-cinzel drop-shadow-lg">Luxury Hotels</h1>
-            <p class="text-2xl font-cinzel mt-2 drop-shadow-md">Haz tu reserva</p>
+            <p class="text-2xl font-cinzel mt-2 drop-shadow-md">Modificar Reserva</p>
         </div>
         <div class="absolute top-4 right-6 flex gap-4">
             <details class="relative">
@@ -49,41 +49,66 @@
         </div>
     </header>
 
-    <!-- Formulario de Reserva -->
+    <!-- Formulario de Modificación -->
     <main class="flex-grow flex items-center justify-center mt-5 px-4">
         <div class="bg-[#561f0c] p-8 rounded-lg shadow-lg w-full max-w-lg">
-            <h2 class="text-4xl font-cinzel text-[#EAC696] text-center mb-6">Nueva Reserva</h2>
+            <h2 class="text-4xl font-cinzel text-[#EAC696] text-center mb-6">Modificar Reserva</h2>
 
-            <form method="GET" action="{{ route('new-reservation') }}"class="space-y-6" onsubmit="return confirm('¿Quieres confirmar la reserva?')">
+            <form method="POST" action="{{ route('modify', $reservation->id) }}" class="space-y-6">
+                @csrf
+
+                <!-- Check-in -->
                 <div>
                     <label class="block text-[#EAC696] font-cinzel text-lg">Check-in</label>
-                    <input type="date" name="check_in" class="w-full p-3 bg-[#EAC696] text-[#260101] border border-[#EAC696] rounded focus:outline-none focus:ring-2 focus:ring-[#EAC696]">
+                    <input type="date" name="check_in" value="{{ $reservation->check_in }}"
+                           class="w-full p-3 bg-[#EAC696] text-[#260101] border border-[#EAC696] rounded focus:outline-none focus:ring-2 focus:ring-[#EAC696]">
+                    @error('check_in')
+                        <p class="text-red-500 text-sm mt-1 font-cinzel">{{ $message }}</p>
+                    @enderror
                 </div>
 
+                <!-- Check-out -->
                 <div>
                     <label class="block text-[#EAC696] font-cinzel text-lg">Check-out</label>
-                    <input type="date" name="check_out" class="w-full p-3 bg-[#EAC696] text-[#260101] border border-[#EAC696] rounded focus:outline-none focus:ring-2 focus:ring-[#EAC696]">
+                    <input type="date" name="check_out" value="{{ $reservation->check_out }}"
+                           class="w-full p-3 bg-[#EAC696] text-[#260101] border border-[#EAC696] rounded focus:outline-none focus:ring-2 focus:ring-[#EAC696]">
+                    @error('check_out')
+                        <p class="text-red-500 text-sm mt-1 font-cinzel">{{ $message }}</p>
+                    @enderror
                 </div>
 
+                <!-- Huéspedes -->
                 <div>
                     <label class="block text-[#EAC696] font-cinzel text-lg">Huéspedes</label>
-                    <input type="number" name="number_guests" min="1" max="2" class="w-full p-3 bg-[#EAC696] text-[#260101] border border-[#EAC696] rounded focus:outline-none focus:ring-2 focus:ring-[#EAC696]">
+                    <input type="number" name="number_guests" value="{{ $reservation->number_guests }}"
+                           class="w-full p-3 bg-[#EAC696] text-[#260101] border border-[#EAC696] rounded focus:outline-none focus:ring-2 focus:ring-[#EAC696]">
                 </div>
 
+                <!-- Habitación actual -->
                 <div>
-                    <label class="block text-[#EAC696] font-cinzel text-lg">Tipo de habitación</label>
-                    <select name= "room_id"class="w-full p-3 bg-[#EAC696] text-[#260101] border border-[#EAC696] rounded focus:outline-none focus:ring-2 focus:ring-[#EAC696]">
-                        @foreach ($hotel->rooms as $room)
-                            <option value="{{ $room->id }}">{{ $room->type }} {{$room->price}}€/noche</option>    
+                    <label class="block text-[#EAC696] font-cinzel text-lg">Habitación reservada</label>
+                    <input type="text" name="selected_room" value="{{ $reservation->room->type }}" disabled
+                           class="w-full p-3 bg-[#EAC696] text-[#260101] border border-[#EAC696] rounded cursor-not-allowed">
+                </div>
+
+                <!-- Cambiar tipo de habitación -->
+                <div>
+                    <label class="block text-[#EAC696] font-cinzel text-lg">Modifica el tipo de habitación</label>
+                    <select name="room_id" id="room_id"
+                            class="w-full p-3 bg-[#EAC696] text-[#260101] border border-[#EAC696] rounded focus:outline-none focus:ring-2 focus:ring-[#EAC696]">
+                        @foreach($reservation->hotel->rooms as $room)
+                            <option value="{{ $room->id }}">{{ $room->type }}: {{ $room->price }} /noche</option>
                         @endforeach
                     </select>
                 </div>
 
-                <input type="hidden" name="hotel_id" value="{{ $hotel->id }}">
-                <button type="submit"
-                        class="w-full bg-[#EAC696] text-[#260101] font-cinzel font-semibold p-3 rounded-md shadow-md hover:bg-[#C89D60] transition">
-                    Reservar
-                </button>
+                <!-- Botón -->
+                <div class="text-center">
+                    <button type="submit"
+                            class="bg-[#EAC696] text-[#260101] font-cinzel font-semibold px-6 py-3 rounded-md shadow-md hover:bg-[#C89D60] transition">
+                        Modificar
+                    </button>
+                </div>
             </form>
         </div>
     </main>

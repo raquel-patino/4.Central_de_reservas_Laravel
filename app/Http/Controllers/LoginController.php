@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
-use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Validation\Rules\Password;
 use Symfony\Contracts\Service\Attribute\Required;
 
@@ -31,9 +32,64 @@ public function login(Request $request) {
 
 }   
 
-
 public function register(Request $request){
-    $request->validate([
+    $validatedData= $request->validate($this->validateDataCreateUser());
+     
+
+    $user= User::create($validatedData);
+	Auth::login($user);
+
+    return redirect(route('private'));
+  
+}
+
+
+public function logout(Request $request){
+    
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect(route('login-index'));
+}
+
+
+
+public function showProfile (){
+    $user= Auth::user();
+
+    return view('profile', compact('user'));
+}
+
+public function updateUser (Request $request){
+
+$validatedData= $request->validate($this->validateDataUpdateUser());
+
+/** @var \App\Models\User $user */
+$user= Auth::user();
+$user->update($validatedData);
+
+return redirect(route('private'))->with('success', 'El usuario se ha actualizado correctamente');
+
+}
+
+
+public function destroy(Request $request){
+
+    /** @var \App\Models\User $user */
+$user= Auth::user();
+Auth::logout();
+$user->delete();
+$request->session()->invalidate();
+$request->session()->regenerateToken();
+
+return redirect(route('login-index'));
+
+}
+
+
+private function validateDataCreateUser(){
+
+return [
         'name'=> ['required'],
         'email' => ['required','unique:users,email','email:dns,rfc,strict'],
         'password'=> ['required','confirmed', Password::min(8)->letters()->numbers()],
@@ -45,41 +101,29 @@ public function register(Request $request){
         'city'=> ['sometimes','nullable'],
         'country'=> ['sometimes','nullable'],
         'username'=> ['required', 'unique:users,username'],
-        'surname' =>['required']],
+        'surname' =>['required'],
         ['password.required'=> 'La contraseña es obligatoria',
         'password.*'=> 'La contraseña debe tener 8 caracteres, una letra y un número',
-    ]);
+    ]];
 
-    $user= new User();
-    $user->name= $request->name;
-    $user->email= $request->email;
-    $user->password= $request->password;
-    $user->telephone= $request->telephone;
-    $user->street_type=$request->street_type;
-    $user->street_name=$request->street_name;
-    $user->number=$request->number;
-    $user->postcode= $request->postcode;
-    $user->city=$request->city;
-    $user->country= $request->country;
-    $user->username= $request->username;
-    $user->surname= $request->surname;
-
-    if ($user->save()){
-        Auth::login($user);
-        return redirect((route('private')));
-    }else{
-        return redirect ((route('register')));
-    }
 }
 
+private function validateDataUpdateUser(){
 
-public function logout(Request $request){
-    
-    Auth::logout();
-    $request->session()->invalidate();
-    $request->session()->regenerateToken();
-    return redirect(route('login-index'));
+return [
+        'name'=> ['required'],
+        'email' => ['required','email:dns,rfc,strict', Rule::unique('users', 'email')->ignore(Auth::id())],
+         'telephone'=> ['required'],
+        'street_type'=> ['sometimes','nullable'],
+        'street_name'=> ['sometimes','nullable'],
+        'number'=> ['sometimes','nullable'],
+        'postcode'=> ['sometimes','nullable'],
+        'city'=> ['sometimes','nullable'],
+        'country'=> ['sometimes','nullable'],
+        'username'=> ['required', Rule::unique('users', 'username')->ignore(Auth::id())],
+        'surname' =>['required']];
 }
+     
 
 
 }
