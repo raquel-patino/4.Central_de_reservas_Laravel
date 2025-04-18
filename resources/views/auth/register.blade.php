@@ -10,7 +10,7 @@
 
 <body class="bg-[#260101] text-white min-h-screen flex flex-col">
 
-    <!-- Header Estilo Luxury -->
+   
     <header class="relative w-full">
         <div class="absolute inset-0 bg-black opacity-50"></div>
         <img src="https://www.thetimes.com/imageserver/image/%2Fmethode%2Ftimes%2Fprod%2Fweb%2Fbin%2F60591094-a176-4463-a2df-0bef829e93b4.jpg?crop=2560%2C1705%2C0%2C0"
@@ -23,10 +23,20 @@
        
     </header>
 
-    <!-- Formulario de Registro -->
+  
     <main class="flex-grow flex items-center justify-center mt-5 px-4">
         <div class="bg-[#561f0c] p-8 rounded-lg shadow-lg w-full max-w-5xl">
             <h2 class="text-4xl font-cinzel text-[#EAC696] text-center mb-6">Registro</h2>
+            @if ($errors->any())
+        <div class="bg-red-100 text-red-800 p-4 rounded mb-4">
+         <ul>
+            @foreach ($errors->all() as $error)
+                <li>- {{ $error }}</li>
+            @endforeach
+             </ul>
+                </div>
+            @endif
+
 
             <form method="POST" action="{{ route('register-new') }}" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 @csrf

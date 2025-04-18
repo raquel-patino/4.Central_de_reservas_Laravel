@@ -33,8 +33,11 @@ public function login(Request $request) {
 }   
 
 public function register(Request $request){
-    $validatedData= $request->validate($this->validateDataCreateUser());
-     
+    
+    $validatedData = $request->validate(
+        $this->validateDataCreateUser()['rules'],
+        $this->validateDataCreateUser()['messages']
+    );
 
     $user= User::create($validatedData);
 	Auth::login($user);
@@ -87,26 +90,34 @@ return redirect(route('login-index'));
 }
 
 
-private function validateDataCreateUser(){
-
-return [
-        'name'=> ['required'],
-        'email' => ['required','unique:users,email','email:dns,rfc,strict'],
-        'password'=> ['required','confirmed', Password::min(8)->letters()->numbers()],
-        'telephone'=> ['required'],
-        'street_type'=> ['sometimes','nullable'],
-        'street_name'=> ['sometimes','nullable'],
-        'number'=> ['sometimes','nullable'],
-        'postcode'=> ['sometimes','nullable'],
-        'city'=> ['sometimes','nullable'],
-        'country'=> ['sometimes','nullable'],
-        'username'=> ['required', 'unique:users,username'],
-        'surname' =>['required'],
-        ['password.required'=> 'La contraseña es obligatoria',
-        'password.*'=> 'La contraseña debe tener 8 caracteres, una letra y un número',
-    ]];
-
+private function validateDataCreateUser()
+{
+    return [
+        'rules' => [
+            'name'=> ['required'],
+            'email' => ['required','unique:users,email','email:dns,rfc,strict'],
+            'password'=> ['required','confirmed', Password::min(8)->letters()->numbers()],
+            'telephone'=> ['required'],
+            'street_type'=> ['sometimes','nullable'],
+            'street_name'=> ['sometimes','nullable'],
+            'number'=> ['sometimes','nullable'],
+            'postcode'=> ['sometimes','nullable'],
+            'city'=> ['sometimes','nullable'],
+            'country'=> ['sometimes','nullable'],
+            'username'=> ['required', 'unique:users,username'],
+            'surname' =>['required'],
+        ],
+        'messages' => [
+            'password.required'=> 'La contraseña es obligatoria',
+            'password.*'=> 'La contraseña debe tener 8 caracteres, una letra y un número',
+            'password.confirmed'=> 'Las contraseñas no coinciden',
+            'email.required'=> 'El email es obligatorio',   
+            'email.unique'=> 'El email ya está en uso',
+            'email.email'=> 'El email no es válido',
+        ],
+    ];
 }
+
 
 private function validateDataUpdateUser(){
 

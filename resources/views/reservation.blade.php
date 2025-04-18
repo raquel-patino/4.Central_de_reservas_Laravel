@@ -72,12 +72,17 @@
 
                 <div>
                     <label class="block text-[#EAC696] font-cinzel text-lg">Tipo de habitación</label>
-                    <select name= "room_id"class="w-full p-3 bg-[#EAC696] text-[#260101] border border-[#EAC696] rounded focus:outline-none focus:ring-2 focus:ring-[#EAC696]">
-                        @foreach ($hotel->rooms as $room)
-                            <option value="{{ $room->id }}">{{ $room->type }} {{$room->price}}€/noche</option>    
-                        @endforeach
+                    <select name="room_id"
+                            class="w-full p-3 bg-[#EAC696] text-[#260101] border border-[#EAC696] rounded focus:outline-none focus:ring-2 focus:ring-[#EAC696]">
+                        <option value="{{ $room->id }}" selected>
+                            {{ $room->type }} {{ $room->price }}€/noche
+                        </option>
                     </select>
-                </div>
+                
+                    @error('room_id')
+                        <p class="text-red-500 text-sm mt-1 font-cinzel">{{ $message }}</p>
+                    @enderror
+                </div>                
 
                 <input type="hidden" name="hotel_id" value="{{ $hotel->id }}">
                 <button type="submit"
