@@ -95,11 +95,18 @@
                 <div>
                     <label class="block text-[#EAC696] font-cinzel text-lg">Modifica el tipo de habitación</label>
                     <select name="room_id" id="room_id"
-                            class="w-full p-3 bg-[#EAC696] text-[#260101] border border-[#EAC696] rounded focus:outline-none focus:ring-2 focus:ring-[#EAC696]">
-                        @foreach($reservation->hotel->rooms as $room)
-                            <option value="{{ $room->id }}">{{ $room->type }}: {{ $room->price }} /noche</option>
-                        @endforeach
-                    </select>
+                    class="w-full p-3 bg-[#EAC696] text-[#260101] border border-[#EAC696] rounded focus:outline-none focus:ring-2 focus:ring-[#EAC696]">
+                    @foreach($reservation->hotel->rooms as $room)
+                        <option value="{{ $room->id }}" {{ old('room_id', $reservation->room_id) == $room->id ? 'selected' : '' }}>
+                            {{ $room->type }}: {{ $room->price }} /noche
+                        </option>
+                    @endforeach
+                </select>
+                
+                @error('room_id')
+                    <p class="text-red-500 text-sm mt-1 font-cinzel">{{ $message }}</p>
+                @enderror
+                
                 </div>
 
                 <!-- Botón -->

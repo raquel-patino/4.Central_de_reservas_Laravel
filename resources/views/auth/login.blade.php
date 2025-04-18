@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    @vite('resources/css/app.css') {{-- Asegúrate de tener Vite configurado --}}
+    @vite('resources/css/app.css') 
 </head>
 <body class="h-screen flex bg-[#441402] text-white">
 
-    <!-- Lado izquierdo: 3 Imágenes en columna -->
+ 
     <div class="hidden md:flex w-1/2 flex-col">
         <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/19/dd/ff/grand-water-villas-with.jpg?w=1200&h=-1&s=1" 
              alt="Hotel Lobby" 
